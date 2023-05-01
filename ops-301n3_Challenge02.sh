@@ -56,6 +56,9 @@ repeat() {
             set_perm
             other_level=$sum
             break
+        elif [[ $res == "n" ]]; then 
+             echo "No permissions will be set at this level" 
+             break
         elif [[ $tries -eq 2 ]]; then
             echo "You have exceed the number of allowed attempts. Exiting application"
             exit
@@ -127,5 +130,16 @@ fi
 
 
 echo "At this location: $input_path permission levels will be set to: $user_level$group_level$other_level"
+
+if [ -d "$input_path" ]; then
+
+    chmod -R $user_level$group_level$other_level "$input_path"
+
+    for f in $input_path/*; do
+        filename=$(basename $f)
+        echo $(ls -l) $filename
+    done
+
+fi
 
 # End
